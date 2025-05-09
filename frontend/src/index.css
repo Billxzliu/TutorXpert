@@ -1,0 +1,111 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 224 71.4% 4.1%; 
+    --foreground: 210 20% 98%; 
+
+    --card: 222.2 84% 4.9%; 
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 262.1 83.3% 57.8%; 
+    --primary-foreground: 210 20% 98%; 
+ 
+    --secondary: 220 13% 18%; 
+    --secondary-foreground: 210 20% 98%;
+ 
+    --muted: 220 9% 46.1%; 
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 300 76% 72%; 
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 25%; 
+    --input: 220 13% 22%; 
+    --ring: 262.1 83.3% 57.8%; 
+
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+ 
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 210 20% 98%;
+ 
+    --muted: 220 9% 46.1%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 300 76% 72%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 220 13% 25%;
+    --input: 220 13% 22%;
+    --ring: 262.1 83.3% 57.8%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', sans-serif; 
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Ensure Inter font is loaded */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Custom scrollbar for a more modern look - optional */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background) / 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.7);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+  
