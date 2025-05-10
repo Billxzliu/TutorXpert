@@ -20,7 +20,7 @@ const FeaturesSection = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500"
         >
-          Why Choose OnlineTutor?
+          Why Choose TutorXpert?
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {features.map((feature, index) => (

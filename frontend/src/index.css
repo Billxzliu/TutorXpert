@@ -108,4 +108,17 @@
 html {
   scroll-behavior: smooth;
 }
-  
+@keyframes breath {
+  0%, 100% {
+    box-shadow: 0 0 8px #f472b6;
+    border-color: #f472b6;
+  }
+  50% {
+    box-shadow: 0 0 16px #e879f9;
+    border-color: #e879f9;
+  }
+}
+
+.animate-breath {
+  animation: breath 2.5s ease-in-out infinite;
+}
