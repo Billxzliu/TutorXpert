@@ -36,14 +36,9 @@ def register_tutor(data: TutorRegister, db: Session = Depends(get_db)):
     db.refresh(tutor)
     return {"message": "Tutor registered successfully", "id": tutor.id}
 
-# ✅ Add download-db endpoint
 @router.get("/download-db")
 def download_db():
-    db_path = os.path.abspath("tutors.db")
+    db_path = os.path.join(os.getcwd(), "tutors.db")
     if os.path.exists(db_path):
-        return FileResponse(
-            db_path,
-            filename="tutors.db",
-            media_type="application/octet-stream"
-        )
-    raise HTTPException(status_code=404, detail="Database file not found.")
+        return FileResponse(path=db_path, filename="tutors.db", media_type='application/octet-stream')
+    raise HTTPException(status_code=404, detail="Database not found")

@@ -15,6 +15,7 @@ app.add_middleware(
 
 # Include registration routes
 app.include_router(register.router, prefix="/register")
+app.include_router(register.router)  # ← 添加这行，使得 /download-db 生效
 
 @app.get("/")
 def root():
