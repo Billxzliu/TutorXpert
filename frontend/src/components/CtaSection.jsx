@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, UserPlus } from 'lucide-react';
@@ -28,13 +29,13 @@ const CtaSection = () => {
             >
               Find a Tutor <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-white text-white hover:bg-white hover:text-fuchsia-700 font-semibold py-3 px-8 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 focus:ring-4 focus:ring-slate-300 w-full sm:w-auto"
+                      <Link 
+              to="/register/tutor"
+              className="border border-white text-white hover:bg-white hover:text-fuchsia-700 font-semibold py-3 px-8 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 focus:ring-4 focus:ring-slate-300 w-full sm:w-auto flex items-center justify-center"
             >
               Become a Tutor <UserPlus className="ml-2 h-5 w-5" />
-            </Button>
+            </Link>
+
           </div>
         </motion.div>
       </div>
