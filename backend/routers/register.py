@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Student, Tutor
 from schemas import StudentRegister, TutorRegister
+import os
 
 router = APIRouter()
 
@@ -33,3 +35,15 @@ def register_tutor(data: TutorRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(tutor)
     return {"message": "Tutor registered successfully", "id": tutor.id}
+
+# ✅ Add download-db endpoint
+@router.get("/download-db")
+def download_db():
+    db_path = os.path.abspath("tutors.db")
+    if os.path.exists(db_path):
+        return FileResponse(
+            db_path,
+            filename="tutors.db",
+            media_type="application/octet-stream"
+        )
+    raise HTTPException(status_code=404, detail="Database file not found.")

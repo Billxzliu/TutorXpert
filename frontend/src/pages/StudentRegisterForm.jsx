@@ -19,7 +19,7 @@ export default function StudentRegisterForm() {
     setLoading(true)
     setStatus(null)
     try {
-      const res = await fetch('http://localhost:8000/register/student', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/register/student`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
