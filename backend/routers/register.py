@@ -1,23 +1,27 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from database import StudentSessionLocal, TutorSessionLocal
 from models import Student, Tutor
 from schemas import StudentRegister, TutorRegister
-import os
 
 router = APIRouter()
 
-# Dependency to get DB session
-def get_db():
-    db = SessionLocal()
+def get_student_db():
+    db = StudentSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+def get_tutor_db():
+    db = TutorSessionLocal()
     try:
         yield db
     finally:
         db.close()
 
 @router.post("/student")
-def register_student(data: StudentRegister, db: Session = Depends(get_db)):
+def register_student(data: StudentRegister, db: Session = Depends(get_student_db)):
     if db.query(Student).filter(Student.email == data.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     student = Student(**data.dict())
@@ -27,7 +31,7 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
     return {"message": "Student registered successfully", "id": student.id}
 
 @router.post("/tutor")
-def register_tutor(data: TutorRegister, db: Session = Depends(get_db)):
+def register_tutor(data: TutorRegister, db: Session = Depends(get_tutor_db)):
     if db.query(Tutor).filter(Tutor.email == data.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     tutor = Tutor(**data.dict())
@@ -35,10 +39,3 @@ def register_tutor(data: TutorRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(tutor)
     return {"message": "Tutor registered successfully", "id": tutor.id}
-
-@router.get("/download-db")
-def download_db():
-    db_path = os.path.join(os.getcwd(), "tutors.db")
-    if os.path.exists(db_path):
-        return FileResponse(path=db_path, filename="tutors.db", media_type='application/octet-stream')
-    raise HTTPException(status_code=404, detail="Database not found")

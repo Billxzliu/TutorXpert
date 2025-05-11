@@ -1,12 +1,17 @@
+# database.py
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "sqlite:///./tutors.db"
+# 分别指定两个数据库 URL
+STUDENT_DATABASE_URL = "sqlite:///./student.db"
+TUTOR_DATABASE_URL = "sqlite:///./tutor.db"
 
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# 两个 Engine 和 Session
+StudentEngine = create_engine(STUDENT_DATABASE_URL, connect_args={"check_same_thread": False})
+TutorEngine = create_engine(TUTOR_DATABASE_URL, connect_args={"check_same_thread": False})
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+StudentSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=StudentEngine)
+TutorSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=TutorEngine)
+
 Base = declarative_base()
+

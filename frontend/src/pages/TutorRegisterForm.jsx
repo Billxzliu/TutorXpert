@@ -9,15 +9,33 @@ export default function TutorRegisterForm() {
     educationLevel: '', major: '', certifications: '', childrenCheck: '',
     subjects: '', hasExperience: '', experienceDetail: '', availableTimes: '', acceptShortNotice: ''
   })
+  const [status, setStatus] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Tutor Registration Submitted:', form)
+    setLoading(true)
+    setStatus(null)
+    try {
+      //const res = await fetch('http://localhost:8000/register/tutor', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/register/tutor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.detail || 'Registration failed')
+      setStatus('success')
+    } catch (err) {
+      setStatus(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const inputStyle = "w-full px-4 py-3 bg-[#10101e] text-white rounded-lg border border-fuchsia-600 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
@@ -113,16 +131,15 @@ export default function TutorRegisterForm() {
         <div className="w-full h-2 bg-zinc-800 rounded-full mb-8">
           <div
             className="h-full bg-gradient-to-r from-[#4c1d95] to-pink-400 rounded-full transition-all duration-500"
-         style={{
-            width: `${(step - 1) * 33.33}%`,
-            backgroundImage: `linear-gradient(to right, ${
+            style={{
+              width: `${(step - 1) * 33.33}%`,
+              backgroundImage: `linear-gradient(to right, ${
                 step === 2 ? '#9333ea' :
                 step === 3 ? '#c026d3' :
                 step === 4 ? '#f472b6' :
                 '#4c1d95'
-            }, #f472b6)`
+              }, #f472b6)`
             }}
-
           />
         </div>
 
@@ -147,11 +164,13 @@ export default function TutorRegisterForm() {
                   Next
                 </button>
               ) : (
-                <button type="submit" className="ml-auto px-6 py-2 bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white rounded-lg hover:opacity-90 transition">
-                  Submit
+                <button type="submit" disabled={loading} className="ml-auto px-6 py-2 bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white rounded-lg hover:opacity-90 transition disabled:opacity-50">
+                  {loading ? 'Submitting...' : 'Submit'}
                 </button>
               )}
             </div>
+            {status === 'success' && <p className="text-green-400 text-center">Registration successful!</p>}
+            {status && status !== 'success' && <p className="text-red-400 text-center">{status}</p>}
           </form>
         </motion.div>
       </div>
